@@ -123,10 +123,7 @@ MODIFY COLUMN Contraseña VARCHAR(100);
 INSERT INTO tbl_Usuarios (Usuario, Contraseña, Nombres, Apellidos, Correo_email, Fecha_Nacimiento, Cui, Departamento, Id_Rol, Id_Cargo, Id_PuntoA, NUMEROCUENTA, Estado)
 VALUES ('JSOR', SHA2('Jonathansor200066', 256), 'Jonathan', 'Sor', 'Jonathansor2000sm@gmail.com', '2000-06-06', '3034719480109', 'Guatemala', 1, 1, 1, '123', 1);
 
-SELECT * FROM tbl_usuarios where Usuario  = 'JSOR'
-WHERE Usuario = 'JSOR' AND Contraseña = SHA2('Jonathansor200066', 256);
 
-SELECT Count(*) AS REGISTROS FROM tbl_usuarios
 
 CREATE TABLE tbl_Queja (
   Id_Queja INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -177,4 +174,11 @@ CREATE TABLE tbl_Bitacora_DB (
   Fecha DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+--Querys
 
+SELECT * FROM tbl_usuarios 
+WHERE Usuario = 'JSOR' AND Contraseña = SHA2('Jonathansor200066', 256);
+
+SELECT Count(*) AS REGISTROS FROM tbl_usuarios
+
+SELECT Count(*) AS REGISTROS FROM tbl_usuarios WHERE Usuario = 'JSOR' AND Contraseña = 'Jsor', 256);
