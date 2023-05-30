@@ -1,0 +1,22 @@
+<form id="login" method="POST">
+    <input type="text" name="username" id="username" placeholder="Tu correo">
+    <input type="password" name="password" id="password" placeholder="Tu correo" placeholder="Tu contrasena">
+    <button type="submit">Login</button>
+</form>
+
+<script type="text/javascript">
+    const formLogin = document.querySelector("#login");
+    formLogin.addEventListener('submit', event => {
+        event.preventDefault();
+        const formData = new FormData(formLogin);
+        console.log(formData);
+
+        fetch('/api/login', {
+            method:"POST",
+
+            body: new URLSearchParams(formData),
+        })
+        .then(res=>res.json())
+        .then(data=>console.log(data));
+    });
+</script>
