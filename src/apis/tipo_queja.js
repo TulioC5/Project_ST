@@ -2,20 +2,20 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const secret = "123456";
-const tabla = 'quejas_tulio.tbl_puntos_atencion';
+const tabla = 'quejas_tulio.tbl_tipo_queja';
 var { conexion, realizarConsulta, realizarDml } = require('../db/conexion');
 
-router.post("/agregarPunto", async (req, res) =>{
+router.post("/agregarTipoQueja", async (req, res) =>{
     try {
         const token = req.headers.authorization.split(" ")[1]
         const payload = jwt.verify(token, secret)        
-        const {id: sub, Descripcion, Id_Region } = req.body;
-        var consulta = `INSERT INTO quejas_tulio.tbl_puntos_atencion(Descripcion, Id_Region, Estado) VALUES ('${Descripcion}', ${Id_Region}, 1)`;        
+        const {id: sub, Descripcion, Siglas,  } = req.body;
+        var consulta = `INSERT INTO ${tabla}(Descripcion, Siglas, Estado, Correlativo) VALUES ('${Descripcion}', '${Siglas}', 1, 0)`;        
         console.log(consulta);
         var resultadoConsulta = await realizarDml(consulta);
         console.log(resultadoConsulta);
         if (resultadoConsulta == true){    
-            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"insertar"}', 'Descripcion: ${Descripcion}, Id_Region: ${Id_Region}', '${payload.user}', ${"Current_Timestamp"})`;
+            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"insertar"}', 'Descripcion: ${Descripcion}, Siglas: ${Siglas}', '${payload.user}', ${"Current_Timestamp"})`;
             console.log(consulta);
             var resultadoConsulta = await realizarDml(consulta);            
             res.status(201).send({ Ok: "Ok" });
@@ -27,31 +27,32 @@ router.post("/agregarPunto", async (req, res) =>{
     }        
 })
 
-router.get("/obtenerPuntos", async (req, res) =>{
+router.get("/obtenerTipoQueja", async (req, res) =>{
     try {
         const token = req.headers.authorization.split(" ")[1]
         const payload = jwt.verify(token, secret)        
-        var consulta = `SELECT * FROM quejas_tulio.tbl_puntos_atencion`;
+        var consulta = `SELECT * FROM ${tabla}`;
         console.log(consulta);
         var resultadoConsulta = await realizarConsulta(consulta);
         console.log(resultadoConsulta);                 
-        res.status(200).send({ resultadoConsulta });            
+        res.status(201).send({ resultadoConsulta });            
     }catch (error) {
         res.status(401).send({error: error.message})
     }        
 })
 
-router.post("/actualizarPunto", async (req, res) =>{
+router.post("/actualizarTipoQueja", async (req, res) =>{
     try {
         const token = req.headers.authorization.split(" ")[1]
         const payload = jwt.verify(token, secret)        
-        const {id: sub,Id_PuntoA, Descripcion, Id_Region } = req.body;
-        var consulta = `UPDATE quejas_tulio.tbl_puntos_atencion set Descripcion = '${Descripcion}', Id_Region = '${Id_Region}' WHERE Id_PuntoA = ${Id_PuntoA}`;        
+        const {id: sub,Id_TQueja, Descripcion, Siglas } = req.body;
+        var consulta = `UPDATE ${tabla} set Descripcion = '${Descripcion}', Siglas = '${Siglas}' WHERE Id_Tqueja = ${Id_TQueja}`;        
         console.log(consulta);
         var resultadoConsulta = await realizarDml(consulta);
         console.log(resultadoConsulta);
         if (resultadoConsulta == true){    
-            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"actualizar"}', 'Id: ${Id_PuntoA}, Id_Region: ${Id_Region}, Descripcion:${Descripcion}', '${payload.user}', ${"Current_Timestamp"})`;
+            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"actualizar"}',
+            'Id: ${Id_TQueja},Descripcion: ${Descripcion}, Siglas:${Siglas}', '${payload.user}', ${"Current_Timestamp"})`;
             console.log(consulta);
             var resultadoConsulta = await realizarDml(consulta);            
             res.status(200).send({ Ok: "Ok" });
@@ -63,17 +64,17 @@ router.post("/actualizarPunto", async (req, res) =>{
     }        
 })
 
-router.post("/eliminarPunto", async (req, res) =>{
+router.post("/eliminarTipoQueja", async (req, res) =>{
     try {
         const token = req.headers.authorization.split(" ")[1]
         const payload = jwt.verify(token, secret)        
-        const {id: sub,Id_PuntoA} = req.body;
-        var consulta = `UPDATE quejas_tulio.tbl_puntos_atencion set Estado = 2 WHERE Id_PuntoA = ${Id_PuntoA}`;        
+        const {id: sub,Id_TQueja} = req.body;
+        var consulta = `UPDATE ${tabla} set Estado = 2 WHERE Id_Tqueja = ${Id_TQueja}`;        
         console.log(consulta);
         var resultadoConsulta = await realizarDml(consulta);
         console.log(resultadoConsulta);
         if (resultadoConsulta == true){    
-            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"eliminar"}', 'Id: ${Id_PuntoA}, Estado: 2', '${payload.user}', ${"Current_Timestamp"})`;
+            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"eliminar"}', 'Id: ${Id_TQueja}, Estado: 2', '${payload.user}', ${"Current_Timestamp"})`;
             console.log(consulta);
             var resultadoConsulta = await realizarDml(consulta);            
             res.status(200).send({ Ok: "Ok" });
