@@ -161,18 +161,16 @@ CREATE TABLE tbl_Detalles_Queja (
   FOREIGN KEY (Id_Queja) REFERENCES tbl_Queja(Id_Queja)
 );
 
-
-
+ 
 CREATE TABLE tbl_Bitacora_DB (
   Id_B INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  Tbl_Nombre VARCHAR(20),
+  Tbl_Nombre VARCHAR(100),
   Accion VARCHAR(15),
-  Registro_Antes VARCHAR(1000),
   Registro_Despues VARCHAR(1000),
   Usuario VARCHAR(15),
-  Correo_email VARCHAR(50),
   Fecha DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
 
 --Querys
 
@@ -182,3 +180,15 @@ WHERE Usuario = 'JSOR' AND Contraseña = SHA2('Jonathansor200066', 256);
 SELECT Count(*) AS REGISTROS FROM tbl_usuarios
 
 SELECT Count(*) AS REGISTROS FROM tbl_usuarios WHERE Usuario = 'JSOR' AND Contraseña = 'Jsor', 256);
+
+SELECT * from quejas_tulio.tbl_puntos_atencion
+insert into quejas_tulio.tbl_puntos_atencion(Descripcion, Id_Region, Estado)
+values ('', 1, 1)
+
+select * from quejas_tulio.tbl_bitacora_db tbd 
+
+insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha)
+
+insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('quejas_tulio.tbl_puntos_atencion', 'insertar', 'Prueba punto', 'undefined', Current_Timestamp)
+
+select * from quejas_tulio.tbl_bitacora_db tbd 
