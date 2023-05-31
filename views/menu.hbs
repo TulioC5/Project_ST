@@ -1,10 +1,10 @@
 
-
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', async e => {
         await tipoQuejas();
-        document.getElementById('navbarSupporteMenu').style.display = 'block';
         document.getElementById('navbarSupportedContent').style.display = 'none';
+        let menu = document.getElementById('navbarSupporteMenu');
+        document.getElementById('navBarLogin').insertAdjacentElement('beforeend', menu);
     });
 
     tipoQuejas = async () => {

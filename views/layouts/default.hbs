@@ -4,8 +4,8 @@
     <head>
         <meta charset="utf-8">
         <title>Mi prestamito</title>
-        <link rel="stylesheet" href="./css/bootstrap.css">
-        <link rel="stylesheet" href="./sweetalert2/sweetalert2.css">
+        <link rel="stylesheet" href="/css/bootstrap.css">
+        <link rel="stylesheet" href="/sweetalert2/sweetalert2.css">
 
     </head>
 <body>
@@ -25,6 +25,50 @@
                 </ul>
             </div>
         </div>
+
+        <div  class="container-fluid" style="display: none" id="navbarSupporteMenu">
+            <div class="collapse navbar-collapse" id="">
+                <ul id="menu" class=" navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Catalogos
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="puntoatencion">Punto de atencion</a>
+                            <a class="dropdown-item" href="usuariopuntoatencion">Usuario punto de atencion</a>
+                            <a class="dropdown-item" href="tipoqueja">Tipo de quejas</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Quejas
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Quejas ingresadas por mal servicio</a>
+                            <a class="dropdown-item" href="#">Usuario punto de atencion</a>
+                            <a class="dropdown-item" href="#">Tipo de quejas</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="queja-ingresa" href="usuario-atencion">Quejas ingresadas por mal servicio.</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="queja-proceso" href="usuario-atencion">Quejas por mal servicio en proceso de atención</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="seguimiento" href="usuario-atencion">Seguimiento Quejas por mal servicio asignadas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="reporte">Reporte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="tipo-queja">Administrar</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     </nav>
     <div class="mt-3">
         {{{ body }}}
@@ -32,7 +76,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script src="./sweetalert2/sweetalert2.js"></script>
+    <script src="/sweetalert2/sweetalert2.js"></script>
 
 </body>
 </html>

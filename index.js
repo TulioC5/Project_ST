@@ -31,7 +31,17 @@ app.get('/login',(req,res)=>{
 });
 
 app.get('/home',(req,res)=>{
-    res.render('home')
+    res.render('home', {
+        partials: {
+            menu: 'menu'
+        }
+    });
+});
+app.get('/puntoatencion',(req,res)=>{
+    res.render('punto-atencion');
+});
+app.get('/puntoatencion/agregar',(req,res)=>{
+    res.render('punto-atencion');
 });
 
 
