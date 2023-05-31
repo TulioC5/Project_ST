@@ -1,44 +1,60 @@
 
-<form id="login" class="container g-3 mt-5" method="POST">
-    <div class="col-lg-12 d-flex justify-content-center ">
-        <div class="col-4">
-            <div class="form-outline mb-3">
-                <label class="form-label">Correo</label>
-                <input type="text" name="username" id="username" class="form-control" />
-            </div>
-            <div class="form-outline mb-3">
-                <label class="form-label">Contrasena</label>
-                <input type="password" name="password" id="password" class="form-control" />
-            </div>
-            <div class="form-outline mb-3">
-                <button class="btn btn-success" type="submit">Login</button>
-            </div>
-        </div>
+<div class="container-fluid" id="navbarSupporteMenu">
+    <div class="collapse navbar-collapse" id="">
+        <ul id="menu" class=" navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Catalogos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="puntoatencion">Punto de atencion</a>
+                    <a class="dropdown-item" href="usuariopuntoatencion">Usuario punto de atencion</a>
+                    <a class="dropdown-item" href="tipoqueja">Tipo de quejas</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Quejas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Quejas ingresadas por mal servicio</a>
+                    <a class="dropdown-item" href="#">Usuario punto de atencion</a>
+                    <a class="dropdown-item" href="#">Tipo de quejas</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="queja-ingresa" href="usuario-atencion">Quejas ingresadas por mal servicio.</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="queja-proceso" href="usuario-atencion">Quejas por mal servicio en proceso de atención</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="seguimiento" href="usuario-atencion">Seguimiento Quejas por mal servicio asignadas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="reporte">Reporte</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="tipo-queja">Administrar</a>
+            </li>
+        </ul>
     </div>
-</form>
+</div>
 
 <script type="text/javascript">
-    const formLogin = document.querySelector("#login");
-    formLogin.addEventListener('submit', async event  =>  {
-        event.preventDefault(); // no envia submit
-        const formData = new FormData(formLogin);
-
-        const response = await fetch('/api/login', { //api consulta login
-            method:"POST",
-            body: new URLSearchParams(formData),
-        }).then(res => res.json().then(data => ({status: res.status, body: data})));
-
-        let statusCode = response.status;
-        let body = response.body;
-
-        if (statusCode == 200){
-            localStorage.setItem('jwt', body.token);
-            window.location = 'home';
-        }else{
-            Swal.fire({
-                icon: 'error',
-                text: 'Correo y/o contrasena incorrecto',
-            });
-        }
+    document.addEventListener('DOMContentLoaded', async e => {
+        await tipoQuejas();
+        document.getElementById('navbarSupportedContent').style.display = 'none';
+        let menu = document.getElementById('navbarSupporteMenu');
+        document.getElementById('navBarLogin').insertAdjacentElement('beforeend', menu);
     });
+
+    tipoQuejas = async () => {
+
+        // const response = await fetch('/api/login', { //api consulta login
+        //     method:"POST",
+        //     body: new URLSearchParams(formData),
+        // }).then(res => res.json().then(data => ({status: res.status, body: data})));
+    }
 </script>
