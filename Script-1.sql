@@ -127,11 +127,12 @@ VALUES ('JSOR', SHA2('Jonathansor200066', 256), 'Jonathan', 'Sor', 'Jonathansor2
 
 CREATE TABLE tbl_Queja (
   Id_Queja INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Siglas Varchar(25),
   Nombres VARCHAR(25),
   Apellidos VARCHAR(25),
   Correo_email VARCHAR(50),
   Telefono VARCHAR(8),
-  Id_Usuario INT UNSIGNED,
+  Id_Usuario varchar(100),
   Detalles VARCHAR(1000),
   Id_EstadoIni INT UNSIGNED,
   Id_EstadoFin INT UNSIGNED,
@@ -143,13 +144,14 @@ CREATE TABLE tbl_Queja (
   Justificacion VARCHAR(1000),
   Id_PuntoA INT UNSIGNED,
   Respuesta_Queja VARCHAR(100),
-  FOREIGN KEY (Id_Usuario) REFERENCES tbl_Usuarios(Id_Usuario),
   FOREIGN KEY (Id_EstadoIni) REFERENCES tbl_Estado(Id_Estado),
   FOREIGN KEY (Id_EstadoFin) REFERENCES tbl_Estado(Id_Estado),
   FOREIGN KEY (Id_Tqueja) REFERENCES tbl_Tipo_Queja(Id_Tqueja),
   FOREIGN KEY (Id_Origen) REFERENCES tbl_Queja_Origen(Id_Origen),
   FOREIGN KEY (Id_PuntoA) REFERENCES tbl_Puntos_Atencion(Id_PuntoA)
 );
+
+
 
 
 CREATE TABLE tbl_Detalles_Queja (
@@ -161,24 +163,21 @@ CREATE TABLE tbl_Detalles_Queja (
   FOREIGN KEY (Id_Queja) REFERENCES tbl_Queja(Id_Queja)
 );
 
-
-
+ 
 CREATE TABLE tbl_Bitacora_DB (
   Id_B INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  Tbl_Nombre VARCHAR(20),
+  Tbl_Nombre VARCHAR(100),
   Accion VARCHAR(15),
-  Registro_Antes VARCHAR(1000),
   Registro_Despues VARCHAR(1000),
   Usuario VARCHAR(15),
-  Correo_email VARCHAR(50),
   Fecha DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+select * from quejas_tulio.tbl_estado te 
+
 --Querys
+select * from quejas_tulio.tbl_queja 
+select * from quejas_tulio.tbl_estado te 
 
-SELECT * FROM tbl_usuarios 
-WHERE Usuario = 'JSOR' AND Contraseña = SHA2('Jonathansor200066', 256);
-
-SELECT Count(*) AS REGISTROS FROM tbl_usuarios
-
-SELECT Count(*) AS REGISTROS FROM tbl_usuarios WHERE Usuario = 'JSOR' AND Contraseña = 'Jsor', 256);
+INSERT INTO quejas_tulio.tbl_queja(Nombres, Apellidos, Correo_email, Telefono, Detalles, Id_TQueja, Id_Origen, Archivo, Id_PuntoA, Id_EstadoIni, Id_EstadoFin) 
+        VALUES ('Jonathan Elias','Sor Monroy', 'Jonathansor2000sm@gmail.com', '48259722', 'Prueba de queja', '1', '1', '', 1,1,1)

@@ -12,7 +12,7 @@ router.post("/login", async (req, res) =>{
     console.log(resultadoConsulta[0]);
     if (resultadoConsulta[0].REGISTROS == 1){
         const token = jwt.sign({
-            sub, exp: Date.now() + 60 * 1000 * 24
+            sub, user:username ,exp: Date.now() + 60 * 1000 * 24
         }, secret)
         res.status(200).send({ token });
     } else {
