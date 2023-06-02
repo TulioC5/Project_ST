@@ -20,6 +20,11 @@
 </form>
 <script type="text/javascript">
     let jwt = localStorage.jwt;
+    const header = new Headers();
+    header.append('authorization', `Bearer ${jwt}`)
+    header.append('Accept', `application/json`)
+    header.append('Content-Type', `application/json`)
+
     document.addEventListener('DOMContentLoaded', async e => {
         await tipoQuejas();
         document.getElementById('divnavbarSupporteMenu').style.display = 'block';
@@ -27,9 +32,6 @@
     });
 
     tipoQuejas = async () => {
-
-        const header = new Headers();
-        header.append('authorization', `Bearer ${jwt}`)
 
         const response = await fetch('/api/punto_atencion/obtenerPuntos', {
             method:"GET",
@@ -53,7 +55,7 @@
                         <td>${descripcion}</td>
                         <td>
                             <button id="modificar${id_punto}" class="btn btn-success">Modificar</button>
-                            <button id="eliminar${id_punto}" class="btn btn-danger">Eliminar</button>
+                            <button id="eliminar${id_punto}" onclick="eliminarPunto(${id_punto})" type="button" class="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -91,6 +93,38 @@
             Swal.fire({
                 icon: 'error',
                 text: 'Hubo un error en obtener listado',
+            });
+        }
+    }
+
+    eliminarPunto = async (id) => {
+
+        data = JSON.stringify({
+            Id_PuntoA : id,
+        })
+
+        const response = await fetch('/api/punto_atencion/eliminarPunto', {
+            method:"POST",
+            headers:header,
+            body: data,
+        }).then(res => res.json().then(data => ({status: res.status, body: data})));
+
+        let statusCode = response.status;
+        let body = response.body;
+        if (statusCode == 200){
+            Swal.fire({
+                icon: 'success',
+                text: 'Punto de atencion , desactivado',
+                allowOutsideClick: false
+            }).then(function(isConfirm) {
+                if (isConfirm) {
+                    window.location = '/puntoatencion'
+                }
+            })
+        }else{
+            Swal.fire({
+                icon: 'error',
+                text: 'Hubo un error en el servidor',
             });
         }
     }
