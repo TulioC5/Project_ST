@@ -51,7 +51,7 @@ app.get('/puntoatencion',(req,res)=>{
     res.render('punto-atencion');
 });
 app.get('/puntoatencion/agregar',(req,res)=>{
-    res.render('punto-atencion');
+    res.render('punto-atencion-agregar');
 });
 
 

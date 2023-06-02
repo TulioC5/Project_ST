@@ -13,7 +13,7 @@ router.get("/obtenerRegiones", async (req, res) =>{
         console.log(consulta);
         var resultadoConsulta = await realizarConsulta(consulta);
         console.log(resultadoConsulta);                 
-        res.status(201).send({ resultadoConsulta });            
+        res.status(200).send({ resultadoConsulta });
     }catch (error) {
         res.status(401).send({error: error.message})
     }        
