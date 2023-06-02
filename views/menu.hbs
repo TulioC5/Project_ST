@@ -1,16 +1,14 @@
 
-
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', async e => {
         await tipoQuejas();
-        document.getElementById('divnavbarSupporteMenu').style.display = 'block';
-        document.getElementById('divnavbarSupportedContent').style.display = 'none';
+        document.getElementById('navbarSupportedContent').style.display = 'none';
+        let menu = document.getElementById('navbarSupporteMenu');
+        document.getElementById('navBarLogin').insertAdjacentElement('beforeend', menu);
     });
 
     tipoQuejas = async () => {
-        $.ajax({
-            url : '/api/'
-        })
+
         // const response = await fetch('/api/login', { //api consulta login
         //     method:"POST",
         //     body: new URLSearchParams(formData),

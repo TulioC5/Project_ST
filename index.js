@@ -2,6 +2,7 @@
 const express = require("express")
 const bodyParser = require('body-parser')
 const hbs = require('express-handlebars')
+const path = require('path')
 const app = express()
 const loginRoute = require("./src/apis/login")
 const puntoAtencionRoute = require("./src/apis/punto_atencion")
@@ -29,10 +30,29 @@ app.use("/api/ingreso", quejasRoute);
 
 
 
+app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
+app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')))
+app.use('/sweetalert2', express.static(path.join(__dirname, 'node_modules/sweetalert2/dist')))
 app.get('/login',(req,res)=>{
     res.render('login')
 });
+app.get('/',(req,res)=>{
+    res.render('login')
+});
 
+app.get('/home',(req,res)=>{
+    res.render('home', {
+        partials: {
+            menu: 'menu'
+        }
+    });
+});
+app.get('/puntoatencion',(req,res)=>{
+    res.render('punto-atencion');
+});
+app.get('/puntoatencion/agregar',(req,res)=>{
+    res.render('punto-atencion-agregar');
+});
 
 
 app.listen(port, () => {

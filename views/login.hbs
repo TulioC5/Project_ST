@@ -23,9 +23,15 @@
         event.preventDefault(); // no envia submit
         const formData = new FormData(formLogin);
 
+        data = JSON.stringify({  username : document.getElementById('username').value, password: document.getElementById('password').value,})
+
         const response = await fetch('/api/login', { //api consulta login
             method:"POST",
-            body: new URLSearchParams(formData),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: data,
         }).then(res => res.json().then(data => ({status: res.status, body: data})));
 
         let statusCode = response.status;
