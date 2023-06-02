@@ -31,7 +31,7 @@ router.get("/obtenerTipoQueja", async (req, res) =>{
     try {
         const token = req.headers.authorization.split(" ")[1]
         const payload = jwt.verify(token, secret)        
-        var consulta = `SELECT * FROM ${tabla}`;
+        var consulta = `SELECT * FROM ${tabla} WHERE estado = 1`;
         console.log(consulta);
         var resultadoConsulta = await realizarConsulta(consulta);
         console.log(resultadoConsulta);                 
