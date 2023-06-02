@@ -54,6 +54,14 @@ app.get('/puntoatencion/agregar',(req,res)=>{
     res.render('punto-atencion-agregar');
 });
 
+app.get('/tipoqueja',(req,res)=>{
+    res.render('tipo-queja');
+});
+
+app.get('/tipoqueja/agregar',(req,res)=>{
+    res.render('tipo-queja-agregar');
+});
+
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);

@@ -2,18 +2,7 @@
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', async e => {
-        await tipoQuejas();
         document.getElementById('divnavbarSupporteMenu').style.display = 'block';
         document.getElementById('divnavbarSupportedContent').style.display = 'none';
     });
-
-    tipoQuejas = async () => {
-        $.ajax({
-            url : '/api/'
-        })
-        // const response = await fetch('/api/login', { //api consulta login
-        //     method:"POST",
-        //     body: new URLSearchParams(formData),
-        // }).then(res => res.json().then(data => ({status: res.status, body: data})));
-    }
 </script>
