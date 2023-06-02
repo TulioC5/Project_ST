@@ -45,13 +45,11 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Quejas
                                 </a>
-                                <div class="dropdown-menu" >
-                                    <a class="dropdown-item" href="#">Quejas ingresadas por mal servicio</a>
-                                    <a class="dropdown-item" href="#">Usuario punto de atencion</a>
-                                    <a class="dropdown-item" href="#">Tipo de quejas</a>
+                                <div class="dropdown-menu" id="dropQuejas" >
+
                                 </div>
                             </li>
                             <li class="nav-item">
@@ -89,8 +87,53 @@
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', async function(){
-        let jwt = localStorage.getItem('jwt');
+        let jwt = localStorage.jwt;
+        const header = new Headers();
+        header.append('authorization', `Bearer ${jwt}`)
+        header.append('Accept', `application/json`)
+        header.append('Content-Type', `application/json`)
 
+        await tipoQuejasDr();
 
     });
+
+    tipoQuejasDr = async () => {
+        let jwt = localStorage.jwt;
+        const header = new Headers();
+        header.append('authorization', `Bearer ${jwt}`)
+        header.append('Accept', `application/json`)
+        header.append('Content-Type', `application/json`)
+
+        const response = await fetch('/api/tipo_queja/obtenerTipoQueja', {
+            method:"GET",
+            headers:header,
+        }).then(res => res.json().then(data => ({status: res.status, body: data})));
+
+
+        let statusCode = response.status;
+        let body = response.body;
+        let drop = ``;
+
+        if (statusCode == 201){
+            let resultadoConsulta = body.resultadoConsulta;
+            resultadoConsulta.forEach(e => {
+                let descripcion = e.Descripcion;
+                let Siglas = e.Siglas;
+                let Id_Tqueja = e.Id_Tqueja;
+
+                drop += `
+                    <a class="dropdown-item" href="queja?sigla=${Id_Tqueja}">${descripcion}</a>
+
+                `;
+            });
+            document.getElementById('dropQuejas').insertAdjacentHTML('beforeend', drop);
+
+        }else{
+            Swal.fire({
+                icon: 'error',
+                text: 'Hubo un error en obtener listado',
+            });
+        }
+    }
+
 </script>

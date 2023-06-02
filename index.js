@@ -62,6 +62,12 @@ app.get('/tipoqueja/agregar',(req,res)=>{
     res.render('tipo-queja-agregar');
 });
 
+app.get('/queja',(req,res)=>{
+    const sigla = req.query.sigla;
+    res.render('queja-new', {
+        'sigla': sigla,
+    });
+});
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
