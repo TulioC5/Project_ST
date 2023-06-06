@@ -38,9 +38,9 @@
                                     Catalogos
                                 </a>
                                 <div class="dropdown-menu" >
-                                    <a class="dropdown-item" href="puntoatencion">Punto de atencion</a>
-                                    <a class="dropdown-item" href="usuariopuntoatencion">Usuario punto de atencion</a>
-                                    <a class="dropdown-item" href="tipoqueja">Tipo de quejas</a>
+                                    <a class="dropdown-item" href="/puntoatencion">Punto de atencion</a>
+                                    <a class="dropdown-item" href="/usuariopuntoatencion">Usuario punto de atencion</a>
+                                    <a class="dropdown-item" href="/tipoqueja">Tipo de quejas</a>
                                 </div>
                             </li>
 
@@ -53,19 +53,22 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="queja-ingresa" href="usuario-atencion">Quejas ingresadas por mal servicio.</a>
+                                <a class="nav-link" aria-current="queja-ingresa" href="/usuario-atencion">Quejas ingresadas por mal servicio.</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="queja-proceso" href="usuario-atencion">Quejas por mal servicio en proceso de atención</a>
+                                <a class="nav-link" aria-current="queja-proceso" href="/usuario-atencion">Quejas por mal servicio en proceso de atención</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="seguimiento" href="usuario-atencion">Seguimiento Quejas por mal servicio asignadas</a>
+                                <a class="nav-link" aria-current="seguimiento" href="/usuario-atencion">Seguimiento Quejas por mal servicio asignadas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="reporte">Reporte</a>
+                                <a class="nav-link" aria-current="page" href="/reporte">Reporte</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="tipo-queja">Administrar</a>
+                                <a class="nav-link" aria-current="page" href="/tipo-queja">Administrar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="/auto_consulta">Autoconsulta</a>
                             </li>
                         </ul>
                 </div>
@@ -122,7 +125,7 @@
                 let Id_Tqueja = e.Id_Tqueja;
 
                 drop += `
-                    <a class="dropdown-item" href="queja?sigla=${Id_Tqueja}">${descripcion}</a>
+                    <a class="dropdown-item" href="/queja?sigla=${Id_Tqueja}">${descripcion}</a>
 
                 `;
             });
