@@ -1,4 +1,4 @@
-<input type="hidden" value="{{sigla}}">
+<input type="hidden" id="siglaID" value="{{sigla}}">
 <div class="container">
     <div id="login" class="row justify-content-center">
         <div class="col-lg-7 ">
@@ -117,6 +117,7 @@
         let nombre_empleado = document.getElementById('nombre_empleado')
         let detalle_queja = document.getElementById('detalle_queja')
         let fileArchivo = document.getElementById('fileArchivo')
+        let siglaID = document.getElementById('siglaID');
 
 
         if (radios == null){
@@ -184,25 +185,18 @@
         }
 
         const file = fileArchivo.files[0];
-        // const base64 = await convertBase64(file);
-        // console.log(base64);
-        // return
-        //
         const header = new Headers();
         header.append('authorization', `Bearer ${jwt}`)
 
         var data = new FormData()
-        data.append('Nombres', 'hubot')
-        data.append('Apellidos', 'hubot')
-        data.append('Correo_email', 'hubot')
-        data.append('Telefono', 'hubot')
-        data.append('Detalle', 'hubot')
-        data.append('Id_TQueja', 1)
-        data.append('Id_Origen', 2)
+        data.append('Nombres', nombre.value)
+        data.append('Apellidos', "")
+        data.append('Correo_email', correo.value)
+        data.append('Telefono', telefono.value)
+        data.append('Detalle', detalle_queja.value)
+        data.append('Id_TQueja', siglaID.value)
+        data.append('Id_Origen', radios.value)
         data.append('File', file)
-
-        // header.append('Content-Type', `multipart/form-data`)
-
         const response = await fetch('/api/ingreso/ingresarQueja', {
             method:"POST",
             headers: header,
@@ -218,7 +212,7 @@
                 allowOutsideClick: false
             }).then(function(isConfirm) {
                 if (isConfirm) {
-                    window.location = '/puntoatencion'
+                    window.location = `/queja?sigla=${siglaID.value}`
                 }
             })
         }else{
