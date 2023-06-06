@@ -6,40 +6,38 @@
                 <div class="form-outline mb-3">
                     <label class="form-label">Por medio de </label>
                     <div class="col-12" id="medioQuejasDiv">
-                        <input type="checkbox" class="form-check" name="" id="">
-                        <input type="checkbox" class="form-check" name="" id="">
                     </div>
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Nombre</label>
-                    <input required type="text" class="form-control" id="descripcion" name="descripcion">
+                    <input required type="text" class="form-control" id="nombre" name="nombre">
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Correo</label>
-                    <input required type="text" class="form-control" id="descripcion" name="descripcion">
+                    <input required type="text" class="form-control" id="correo" name="correo">
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Telefono</label>
-                    <input required type="text" class="form-control" id="descripcion" name="descripcion">
+                    <input required type="text" class="form-control" id="telefono" name="telefono">
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Oficina</label>
-                    <input required type="text" class="form-control" id="descripcion" name="descripcion">
+                    <input required type="text" class="form-control" id="oficina" name="oficina">
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Nombre del empleado</label>
-                    <input required type="text" class="form-control" id="descripcion" name="descripcion">
+                    <input required type="text" class="form-control" id="nombre_empleado" name="nombre_empleado">
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Detalle de la queja</label>
-                    <input required type="text" class="form-control" id="descripcion" name="descripcion">
+                    <input required type="text" class="form-control" id="detalle_queja" name="detalle_queja">
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Archivo</label>
-                    <input class="form-control" type="file">
+                    <input class="form-control" type="file" id="fileArchivo"  name="fileArchivo">
                 </div>
                 <div class="form-outline mb-4">
-                    <button class="btn btn-success" type="button">Guardar</button>
+                    <button class="btn btn-success" onclick="guardarValidacion()" type="button">Guardar</button>
                 </div>
             </div>
         </div>
@@ -94,34 +92,120 @@
         }
     }
 
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
     guardarValidacion = async () =>{
-        let region =  document.getElementById('region').value;
-        let descripcion = document.getElementById('descripcion').value;
 
-        if (region == ''){
+        let radios = document.querySelector('input[name = "checkOrigenQuejas"]:checked');
+        let nombre = document.getElementById('nombre')
+        let correo = document.getElementById('correo')
+        let telefono = document.getElementById('telefono')
+        let oficina = document.getElementById('oficina')
+        let nombre_empleado = document.getElementById('nombre_empleado')
+        let detalle_queja = document.getElementById('detalle_queja')
+        let fileArchivo = document.getElementById('fileArchivo')
+
+
+        if (radios == null){
             Swal.fire({
                 icon: 'error',
-                text: 'Seleccione region',
+                text: 'Seleccione origen queja',
             });
             return
         }
 
-        if (descripcion == ''){
+        if (nombre.value == ''){
             Swal.fire({
                 icon: 'error',
-                text: 'Ingrese descripcion',
+                text: 'Ingrese un nombre',
             });
             return
         }
 
-        data = JSON.stringify({
-            Descripcion : descripcion,
-            Id_Region: region,
-        })
+        if (correo.value == ''){
+            Swal.fire({
+                icon: 'error',
+                text: 'Ingrese correo',
+            });
+            return
+        }
 
-        const response = await fetch('/api/punto_atencion/agregarPunto', {
+        if (telefono.value == ''){
+            Swal.fire({
+                icon: 'error',
+                text: 'Ingrese telefono',
+            });
+            return
+        }
+
+        if (oficina.value == ''){
+            Swal.fire({
+                icon: 'error',
+                text: 'Seleccione oficina',
+            });
+            return
+        }
+
+        if (nombre_empleado.value == ''){
+            Swal.fire({
+                icon: 'error',
+                text: 'Ingrese nombre empleado',
+            });
+            return
+        }
+
+        if (detalle_queja.value == ''){
+            Swal.fire({
+                icon: 'error',
+                text: 'Ingrese detalle queja',
+            });
+            return
+        }
+
+        if (fileArchivo.value == ''){
+            Swal.fire({
+                icon: 'error',
+                text: 'Seleccione un archivo',
+            });
+            return
+        }
+
+        const file = fileArchivo.files[0];
+        // const base64 = await convertBase64(file);
+        // console.log(base64);
+        // return
+        //
+        const header = new Headers();
+        header.append('authorization', `Bearer ${jwt}`)
+
+        var data = new FormData()
+        data.append('Nombres', 'hubot')
+        data.append('Apellidos', 'hubot')
+        data.append('Correo_email', 'hubot')
+        data.append('Telefono', 'hubot')
+        data.append('Detalle', 'hubot')
+        data.append('Id_TQueja', 1)
+        data.append('Id_Origen', 2)
+        data.append('File', file)
+
+        // header.append('Content-Type', `multipart/form-data`)
+
+        const response = await fetch('/api/ingreso/ingresarQueja', {
             method:"POST",
-            headers:header,
+            headers: header,
             body: data,
         }).then(res => res.json().then(data => ({status: res.status, body: data})));
         let statusCode = response.status;
