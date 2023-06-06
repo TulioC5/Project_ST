@@ -1,14 +1,20 @@
 'use strict'
 const express = require("express")
-const bodyParser = require('body-parser')
-const hbs = require('express-handlebars')
-const path = require('path')
-const app = express()
+const bodyParser = require('body-parser') //interpretar el JSON
+const hbs = require('express-handlebars')   //vistas
+const path = require('path') //manejar direcciones de archivos
+const app = express() 
 const loginRoute = require("./src/apis/login")
 const puntoAtencionRoute = require("./src/apis/punto_atencion")
 const tipoQuejaRoute = require("./src/apis/tipo_queja")
 const regionesRoute = require("./src/apis/regiones")
 const quejasRoute = require("./src/apis/ingreso_queja")
+const cargosRoute = require("./src/apis/cargos")
+
+
+
+const registroRoute = require("./src/apis/Registro_usuario")
+
 
 
 const port = 3000
@@ -26,6 +32,9 @@ app.use("/api/punto_atencion", puntoAtencionRoute);
 app.use("/api/tipo_queja", tipoQuejaRoute);
 app.use("/api/regiones", regionesRoute);
 app.use("/api/ingreso", quejasRoute);
+app.use("/api/agregarusuario", registroRoute);
+app.use("/api/cargosu", cargosRoute);
+
 
 
 
@@ -67,6 +76,10 @@ app.get('/queja',(req,res)=>{
     res.render('queja-new', {
         'sigla': sigla,
     });
+
+   
+
+
 });
 
 app.listen(port, () => {

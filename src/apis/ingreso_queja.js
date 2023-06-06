@@ -9,7 +9,7 @@ const fs = require('fs');
 var { conexion, realizarConsulta, realizarDml } = require('../db/conexion');
 var {transporter, enviarCorreo} = require('../db/correos')
 const storage = multer.diskStorage({
-    destination: 'C:/Archivos',
+    destination: 'C:/Archivos', //crear
    filename: function(req, file, cb) {
     const ext = path.extname(file.originalname);
     const newName = "Recibido" + ext; // Cambiar 'nuevo_nombre' por el nombre deseado
@@ -29,7 +29,7 @@ router.post("/ingresarQueja", upload.any(), async (req, res) =>{
         const day = String(currentDate.getDate()).padStart(2, '0');
         const month = String(currentDate.getMonth() + 1).padStart(2, '0');
         const year = currentDate.getFullYear();
-        var siglas = tiposQueja[0]['Siglas'] + "-" + tiposQueja[0]['Correlativo'] + "-" + currentDate.getFullYear();;
+        var siglas = tiposQueja[0]['Siglas'] + "-" + tiposQueja[0]['Correlativo'] + "-" + year;
         console.log(siglas);
         const archivoAdjunto = req.files[0]; // Información del archivo adjunto
         const nuevaCarpeta = 'C:/Archivos/Quejas/'; // Ruta de la nueva carpeta
