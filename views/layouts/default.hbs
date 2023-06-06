@@ -114,7 +114,7 @@
         let body = response.body;
         let drop = ``;
 
-        if (statusCode == 201){
+        if (statusCode == 200){
             let resultadoConsulta = body.resultadoConsulta;
             resultadoConsulta.forEach(e => {
                 let descripcion = e.Descripcion;

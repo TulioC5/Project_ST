@@ -1,17 +1,9 @@
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', async e => {
-        await tipoQuejas();
         document.getElementById('navbarSupportedContent').style.display = 'none';
         let menu = document.getElementById('navbarSupporteMenu');
         document.getElementById('navBarLogin').insertAdjacentElement('beforeend', menu);
     });
 
-    tipoQuejas = async () => {
-
-        // const response = await fetch('/api/login', { //api consulta login
-        //     method:"POST",
-        //     body: new URLSearchParams(formData),
-        // }).then(res => res.json().then(data => ({status: res.status, body: data})));
-    }
 </script>
