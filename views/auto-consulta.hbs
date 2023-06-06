@@ -1,19 +1,18 @@
 
-
+<script async src="https://www.google.com/recaptcha/api.js" ></script>
 <div class="container">
     <div id="login" class="row justify-content-center" method="POST">
         <div class="col-lg-7 ">
             <div class="col-12">
                 <div class="form-outline mb-3">
                     <label class="form-label">Siglas</label>
-                    <input maxlength="3" required type="text" class="form-control" id="siglas" name="siglas">
+                    <input required type="text" class="form-control" id="siglas" name="siglas">
                 </div>
-                <div class="form-outline mb-3">
-                    <label class="form-label">Descripcion</label>
-                    <input required type="text" class="form-control" id="descripcion" name="descripcion">
+                <div class="form-group mt-2">
+                    <div  class="g-recaptcha" data-sitekey="6Le5p3QmAAAAAMsNA5U-lEA3ehvhlghCkR09RenN"></div>
                 </div>
-                <div class="form-outline mb-3">
-                    <button class="btn btn-success" onclick="guardarValidacion()" type="button">Guardar</button>
+                <div class="form-outline mt-2">
+                    <button class="btn btn-success" onclick="validar()" type="button">Buscar</button>
                 </div>
             </div>
         </div>
@@ -33,9 +32,9 @@
     });
 
 
-    guardarValidacion = async () =>{
+    validar = async () =>{
+        let recap = grecaptcha.getResponse();
         let siglas =  document.getElementById('siglas').value;
-        let descripcion = document.getElementById('descripcion').value;
 
         if (siglas == ''){
             Swal.fire({
@@ -45,16 +44,16 @@
             return
         }
 
-        if (descripcion == ''){
+        if (recap == ''){
             Swal.fire({
                 icon: 'error',
-                text: 'Ingrese descripcion',
+                text: 'Valide recaptcha',
             });
             return
         }
 
         data = JSON.stringify({
-            Descripcion : descripcion,
+            recap : recap,
             Siglas: siglas,
         })
 
