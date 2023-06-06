@@ -82,10 +82,18 @@ app.get('/queja',(req,res)=>{
     res.render('queja-new', {
         'sigla': sigla,
     });
+});
 
-   
+app.get('/auto_consulta',(req,res)=>{
+    const sigla = req.query.sigla;
+    res.render('auto-consulta', {
+        'sigla': sigla,
+    });
+});
 
-
+app.get('/reporte',(req,res)=>{
+    const sigla = req.query.sigla;
+    res.render('reporte');
 });
 
 app.listen(port, () => {
