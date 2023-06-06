@@ -5,7 +5,8 @@
             <div class="col-12">
                 <div class="form-outline mb-3">
                     <label class="form-label">Por medio de </label>
-                    <div class="col-1">
+                    <div class="col-12" id="medioQuejasDiv">
+                        <input type="checkbox" class="form-check" name="" id="">
                         <input type="checkbox" class="form-check" name="" id="">
                     </div>
                 </div>
@@ -52,15 +53,15 @@
     header.append('Content-Type', `application/json`)
 
     document.addEventListener('DOMContentLoaded', async e => {
-        await region();
+        await medioQuejas();
         document.getElementById('divnavbarSupporteMenu').style.display = 'block';
         document.getElementById('divnavbarSupportedContent').style.display = 'none';
 
     });
 
-    region = async () => {
-
-        const response = await fetch('/api/regiones/obtenerRegiones', {
+    medioQuejas = async () => {
+        document.getElementById('medioQuejasDiv').innerHTML = '';
+        const response = await fetch('/api/tipo_queja/obtenerOrigenQueja', {
             method:"GET",
             headers:header,
         }).then(res => res.json().then(data => ({status: res.status, body: data})));
@@ -72,23 +73,23 @@
 
         if (statusCode == 200){
             let resultadoConsulta = body.resultadoConsulta;
-            let selectInput = document.getElementById('region');
             resultadoConsulta.forEach(e => {
-                let id_region = e.Id_Region;
-                let descripcion = e.Descripcion;
-                let id = id_region;
-                let name = descripcion;
-                let opt = document.createElement('option');
-                opt.value = id;
-                opt.innerHTML = name;
-                selectInput.appendChild(opt);
+                let id = e.Id_Origen;
+                let descripcion = e.Descripcion_Origen;
 
+                let html = `
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="checkTipo" name="checkTipo" value="${id}">
+                        <label class="form-check-label" for="check">${descripcion}</label>
+                    </div>
+                `;
+                document.getElementById('medioQuejasDiv').insertAdjacentHTML('beforeend', html);
             });
 
         }else{
             Swal.fire({
                 icon: 'error',
-                text: 'Hubo un error en obtener listado',
+                text: 'Hubo un error en obtener orignes quejas',
             });
         }
     }
