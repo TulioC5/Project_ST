@@ -1,3 +1,4 @@
+
 'use strict'
 const express = require("express")
 const bodyParser = require('body-parser') //interpretar el JSON
@@ -10,6 +11,7 @@ const tipoQuejaRoute = require("./src/apis/tipo_queja")
 const regionesRoute = require("./src/apis/regiones")
 const quejasRoute = require("./src/apis/ingreso_queja")
 const cargosRoute = require("./src/apis/cargos")
+const autoRoute = require("./src/apis/autoconsulta")
 
 
 
@@ -40,6 +42,7 @@ app.use("/api/regiones", regionesRoute);
 app.use("/api/ingreso", quejasRoute);
 app.use("/api/agregarusuario", registroRoute);
 app.use("/api/cargosu", cargosRoute);
+app.use("/api/autoc", autoRoute);
 
 
 
@@ -62,6 +65,10 @@ app.get('/home',(req,res)=>{
         }
     });
 });
+
+
+
+
 app.get('/puntoatencion',(req,res)=>{
     res.render('punto-atencion');
 });
@@ -101,3 +108,4 @@ app.listen(port, () => {
 });
 
 // module.exports = app;
+
