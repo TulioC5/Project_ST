@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const path = require('path');
 const router = express.Router();
 const tabla = 'quejas_tulio.tbl_usuarios';
@@ -6,6 +7,8 @@ const multer = require('multer');
 const fs = require('fs');
 var { conexion, realizarConsulta, realizarDml } = require('../db/conexion');
 var {transporter, enviarCorreo} = require('../db/correos')
+
+const app = express();
 
 
 router.post("/agregaruser", async (req, res) =>{
@@ -44,7 +47,8 @@ router.post("/agregaruser", async (req, res) =>{
             }        
         })
         
-
+        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(bodyParser.json());
 
 
 module.exports = router;

@@ -51,11 +51,21 @@ app.use("/api/autoc", autoRoute);
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')))
 app.use('/sweetalert2', express.static(path.join(__dirname, 'node_modules/sweetalert2/dist')))
+
+
+app.get('/', (req, res) => {
+    res.render('Portal');
+});
+
 app.get('/login',(req,res)=>{
     res.render('login')
 });
-app.get('/',(req,res)=>{
-    res.render('login')
+// app.get('/',(req,res)=>{
+//     res.render('login')
+// });
+
+app.get('/registro', (req, res) => {
+    res.render('registro');
 });
 
 app.get('/home',(req,res)=>{
