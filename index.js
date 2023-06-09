@@ -12,6 +12,7 @@ const regionesRoute = require("./src/apis/regiones")
 const quejasRoute = require("./src/apis/ingreso_queja")
 const cargosRoute = require("./src/apis/cargos")
 const autoRoute = require("./src/apis/autoconsulta")
+const usuarioPuntoAtencion = require("./src/apis/usuario_Punto_Atencion")
 
 
 
@@ -43,6 +44,8 @@ app.use("/api/ingreso", quejasRoute);
 app.use("/api/agregarusuario", registroRoute);
 app.use("/api/cargosu", cargosRoute);
 app.use("/api/autoc", autoRoute);
+app.use("/api/usuarioPunto", usuarioPuntoAtencion);
+
 
 
 
