@@ -71,6 +71,11 @@ app.get('/registro', (req, res) => {
     res.render('registro');
 });
 
+app.get('/usuario-p-a', (req, res) => {
+    res.render('usuario-p-a');
+});
+
+
 app.get('/home',(req,res)=>{
     res.render('home', {
         partials: {
