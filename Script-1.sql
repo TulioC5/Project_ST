@@ -181,3 +181,13 @@ select * from quejas_tulio.tbl_estado te
 
 INSERT INTO quejas_tulio.tbl_queja(Nombres, Apellidos, Correo_email, Telefono, Detalles, Id_TQueja, Id_Origen, Archivo, Id_PuntoA, Id_EstadoIni, Id_EstadoFin) 
         VALUES ('Jonathan Elias','Sor Monroy', 'Jonathansor2000sm@gmail.com', '48259722', 'Prueba de queja', '1', '1', '', 1,1,1)
+
+        
+select * from quejas_tulio.tbl_usuarios usuarioPunto
+select * from tbl_puntos_atencion tpa 
+
+update quejas_tulio.tbl_usuarios set Id_PuntoA =
+
+UPDATE quejas_tulio.tbl_usuarios set Id_Cargo = 2, Id_PuntoA = 3 WHERE Usuario = 'JSOR'
+
+insert into quejas_tulio.tbl_bitacora_db({Tbl_Nombre}, Accion, Registro_Despues, Usuario, Fecha) VALUES ('quejas_tulio.tbl_usuarios', 'actualizar', 'Usuario: JSOR, Id_Cargo: 2, Id_PuntoA:4', 'JSOR', Current_Timestamp)
