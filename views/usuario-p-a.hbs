@@ -109,10 +109,10 @@
     eliminarPunto = async (id) => {
 
         data = JSON.stringify({
-            Id_PuntoA : id,
+            Usuario : id,
         })
 
-        const response = await fetch('/api/punto_atencion/eliminarPunto', {
+        const response = await fetch('/api/usuarioPunto/eliminarPuntoUsuario', {
             method:"POST",
             headers:header,
             body: data,
@@ -123,11 +123,11 @@
         if (statusCode == 200){
             Swal.fire({
                 icon: 'success',
-                text: 'Punto de atencion , desactivado',
+                text: 'Punto atencion usuario, desactivado',
                 allowOutsideClick: false
             }).then(function(isConfirm) {
                 if (isConfirm) {
-                    window.location = '/puntoatencion'
+                    window.location = '/usuario-p-a'
                 }
             })
         }else{
