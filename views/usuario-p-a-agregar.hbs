@@ -10,7 +10,7 @@
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Region</label>
-                    <select class="form-control" onchange="getPuntoAtencion()" required name="region" id="region"></select>
+                    <select class="form-control" onchange="getPuntoAtencion(this)" required name="region" id="region"></select>
                 </div>
                 <div class="form-outline mb-3">
                     <label class="form-label">Punto de atencion</label>
@@ -79,7 +79,7 @@
             region: val.value,
         })
 
-        const response = await fetch('/api/usuarioPunto/getID', {
+        const response = await fetch('/api/usuarioPunto/puntoAtencion', {
             method:"POST",
             headers:header,
             body:data
@@ -126,6 +126,13 @@
         if (statusCode == 200){
             let resultadoConsulta = body.resultadoConsulta;
             let selectInput = document.getElementById('region');
+            let id =  '';
+            let name = '---';
+            let opt = document.createElement('option');
+            opt.value = id;
+            opt.innerHTML = name;
+            selectInput.appendChild(opt);
+            
             resultadoConsulta.forEach(e => {
                 let id_region = e.Id_Region;
                 let descripcion = e.Descripcion;
