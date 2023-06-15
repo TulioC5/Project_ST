@@ -15,6 +15,8 @@ const autoRoute = require("./src/apis/autoconsulta")
 const usuarioPuntoAtencion = require("./src/apis/usuario_Punto_Atencion")
 const registroRoute = require("./src/apis/Registro_usuario")
 const quejai = require("./src/apis/quejas_ingresadas")
+const usuarioRoute = require("./src/apis/usuarios")
+
 
 
 
@@ -44,6 +46,8 @@ app.use("/api/cargosu", cargosRoute);
 app.use("/api/autoc", autoRoute);
 app.use("/api/usuarioPunto", usuarioPuntoAtencion);
 app.use("/api/quejaing", quejai);
+app.use("/api/Usuarios", usuarioRoute);
+
 
 
 
