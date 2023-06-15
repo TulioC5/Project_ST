@@ -27,6 +27,35 @@ tbl_regiones					on tbl_puntos_atencion.Id_Region	= tbl_regiones.Id_Region where
     }        
 })
 
+router.post("/getID", async (req, res) =>{
+    try {
+        const token = req.headers.authorization.split(" ")[1]
+        const payload = jwt.verify(token, secret)        
+        const {dpi} = req.body;
+        var consulta = `SELECT Id_Usuario FROM ${tabla} WHERE Cui = '${dpi}'`;        
+        console.log(consulta);
+        var resultadoConsulta = await realizarConsulta(consulta);
+        console.log(resultadoConsulta);                 
+        res.status(200).send({ resultadoConsulta });
+    }catch (error) {
+        res.status(401).send({error: error.message})
+    }         
+})
+
+router.post("/puntoAtencion", async (req, res) =>{
+    try {
+        const token = req.headers.authorization.split(" ")[1]
+        const payload = jwt.verify(token, secret)        
+        const {region} = req.body;
+        var consulta = `SELECT Id_PuntoA, Descripcion FROM tbl_puntos_atencion WHERE id_Region = '${region}'`;        
+        console.log(consulta);
+        var resultadoConsulta = await realizarConsulta(consulta);
+        console.log(resultadoConsulta);                 
+        res.status(200).send({ resultadoConsulta });
+    }catch (error) {
+        res.status(401).send({error: error.message})
+    }         
+})
 
 router.post("/asignarPuntoUsuario", async (req, res) =>{
     try {

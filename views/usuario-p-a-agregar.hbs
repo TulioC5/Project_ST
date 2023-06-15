@@ -4,12 +4,17 @@
         <div class="col-lg-7 ">
             <div class="col-12">
                 <div class="form-outline mb-3">
-                    <label class="form-label">Region</label>
-                    <select class="form-control" required name="region" id="region"></select>
+                    <label class="form-label">DPI</label>
+                    <input type="hidden" id="id_dpi">
+                    <input required type="text" onchange="getID(this)" class="form-control" id="dpi" name="dpi">                    
                 </div>
                 <div class="form-outline mb-3">
-                    <label class="form-label">Descripcion</label>
-                    <input required type="text" class="form-control" id="descripcion" name="descripcion">
+                    <label class="form-label">Region</label>
+                    <select class="form-control" onchange="getPuntoAtencion()" required name="region" id="region"></select>
+                </div>
+                <div class="form-outline mb-3">
+                    <label class="form-label">Punto de atencion</label>
+                    <select class="form-control" required name="punto_atencion" id="punto_atencion"></select>
                 </div>
                 <div class="form-outline mb-3">
                     <button class="btn btn-success" onclick="guardarValidacion()" type="button">Guardar</button>
@@ -31,6 +36,80 @@
         document.getElementById('divnavbarSupportedContent').style.display = 'none';
 
     });
+
+    getID = async (val) => {
+        data = JSON.stringify({
+            dpi: val.value,
+        })
+
+        const response = await fetch('/api/usuarioPunto/getID', {
+            method:"POST",
+            headers:header,
+            body:data
+        }).then(res => res.json().then(data => ({status: res.status, body: data})));
+
+        
+        let statusCode = response.status;
+        let body = response.body;
+        let table = ``;
+
+        if (statusCode == 200){
+            let resultadoConsulta = body.resultadoConsulta;
+            if (resultadoConsulta.length == 0){
+                Swal.fire({
+                    icon: 'warning',
+                    text: 'DPI no existe, favor intente con otro',
+                });
+            }else{
+                resultadoConsulta.forEach(e => {
+                    document.getElementById('id_dpi').value = e.Id_Usuario;
+                });
+            }
+            
+        }else{
+            Swal.fire({
+                icon: 'error',
+                text: 'Hubo un error en obtener listado',
+            });
+        }
+    }
+
+    getPuntoAtencion = async (val) => {
+        data = JSON.stringify({
+            region: val.value,
+        })
+
+        const response = await fetch('/api/usuarioPunto/getID', {
+            method:"POST",
+            headers:header,
+            body:data
+        }).then(res => res.json().then(data => ({status: res.status, body: data})));
+
+        
+        let statusCode = response.status;
+        let body = response.body;
+        let table = ``;
+
+        if (statusCode == 200){
+            let resultadoConsulta = body.resultadoConsulta;
+            if (resultadoConsulta.length == 0){
+                Swal.fire({
+                    icon: 'warning',
+                    text: 'DPI no existe, favor intente con otro',
+                });
+            }else{
+                resultadoConsulta.forEach(e => {
+                    document.getElementById('id_dpi').value = e.Id_Usuario;
+                });
+            }
+            
+        }else{
+            Swal.fire({
+                icon: 'error',
+                text: 'Hubo un error en obtener listado',
+            });
+        }
+    }
 
     region = async () => {
 
@@ -68,8 +147,8 @@
     }
 
     guardarValidacion = async () =>{
-        let region =  document.getElementById('region').value;
-        let descripcion = document.getElementById('descripcion').value;
+        let dpi =  document.getElementById('dpi').value;
+        let punto_atencion = document.getElementById('punto_atencion').value;
 
         if (region == ''){
             Swal.fire({
@@ -79,7 +158,7 @@
             return
         }
 
-        if (descripcion == ''){
+        if (punto_atencion == ''){
             Swal.fire({
                 icon: 'error',
                 text: 'Ingrese descripcion',
