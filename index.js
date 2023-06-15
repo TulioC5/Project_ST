@@ -13,10 +13,10 @@ const quejasRoute = require("./src/apis/ingreso_queja")
 const cargosRoute = require("./src/apis/cargos")
 const autoRoute = require("./src/apis/autoconsulta")
 const usuarioPuntoAtencion = require("./src/apis/usuario_Punto_Atencion")
-
-
-
 const registroRoute = require("./src/apis/Registro_usuario")
+const quejai = require("./src/apis/quejas_ingresadas")
+const usuarioRoute = require("./src/apis/usuarios")
+
 
 
 
@@ -45,6 +45,10 @@ app.use("/api/agregarusuario", registroRoute);
 app.use("/api/cargosu", cargosRoute);
 app.use("/api/autoc", autoRoute);
 app.use("/api/usuarioPunto", usuarioPuntoAtencion);
+app.use("/api/quejaing", quejai);
+app.use("/api/Usuarios", usuarioRoute);
+
+
 
 
 
@@ -73,6 +77,10 @@ app.get('/registro', (req, res) => {
 
 app.get('/usuario-p-a', (req, res) => {
     res.render('usuario-p-a');
+});
+
+app.get('/usuario-p-a-agregar', (req, res) => {
+    res.render('usuario-p-a-agregar');
 });
 
 
@@ -109,12 +117,37 @@ app.get('/queja',(req,res)=>{
     });
 });
 
+
+app.get('/quejaca',(req,res)=>{
+    const sigla = req.query.sigla;
+    res.render('queja-newCA', {
+        'sigla': sigla,
+    });
+});
+
+
 app.get('/auto_consulta',(req,res)=>{
     const sigla = req.query.sigla;
     res.render('auto-consulta', {
         'sigla': sigla,
     });
 });
+
+app.get('/quejai',(req,res)=>{
+    res.render('quejas-ingresadas');
+});
+
+
+
+
+app.get('/puntoatencionM',(req,res)=>{
+    res.render('punto-atencionM');
+});
+
+app.get('/tipoquejaM',(req,res)=>{
+    res.render('tipo-quejaM');
+});
+
 
 app.get('/reporte',(req,res)=>{
     const sigla = req.query.sigla;

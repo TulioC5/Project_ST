@@ -18,12 +18,12 @@ const storage = multer.diskStorage({
   });
   const upload = multer({ storage: storage });
 
-router.post("/ingresarQueja", upload.any(), async (req, res) =>{
+  router.post("/ingresarQueja", upload.any(), async (req, res) => {
     try {
-        const token = req.headers.authorization.split(" ")[1]
-        const payload = jwt.verify(token, secret)        
-        const {Nombres, Apellidos, Correo_email, Telefono, Detalle, Id_TQueja, Id_Origen } = req.body;
-        var consulta = `select * from quejas_tulio.tbl_tipo_queja where Id_Tqueja = ${Id_TQueja}`;                
+        const token = req.headers.authorization.split(" ")[1];
+        const payload = jwt.verify(token, secret);
+        const { Nombres, Apellidos, Correo_email, Telefono, Detalle, Id_TQueja, Id_Origen } = req.body;
+        var consulta = `select * from quejas_tulio.tbl_tipo_queja where Id_Tqueja = ${Id_TQueja}`;
         var tiposQueja = await realizarConsulta(consulta);
         const currentDate = new Date();
         const day = String(currentDate.getDate()).padStart(2, '0');
@@ -40,37 +40,65 @@ router.post("/ingresarQueja", upload.any(), async (req, res) =>{
         fs.renameSync(rutaArchivoAnterior, nuevaRutaArchivo); // Mover el archivo a la nueva ruta
         console.log(rutaArchivoAnterior);
         consulta = `INSERT INTO ${tabla}(Nombres, Apellidos, Correo_email, Telefono, Detalles, Id_TQueja, Id_Origen, Documento_Archivo, Id_PuntoA, Id_EstadoIni, Id_EstadoFin, Id_Usuario, Siglas) 
-        VALUES ('${Nombres}','${Apellidos}', '${Correo_email}', '${Telefono}', '${Detalle}', '${Id_TQueja}', '${Id_Origen}', '${nuevaRutaArchivo}', 1,1,1, '${payload.user}', '${siglas}')`;                
+        VALUES ('${Nombres}','${Apellidos}', '${Correo_email}', '${Telefono}', '${Detalle}', '${Id_TQueja}', '${Id_Origen}', '${nuevaRutaArchivo}', 1,1,1, '${payload.user}', '${siglas}')`;
         console.log(consulta);
         var resultadoConsulta = await realizarDml(consulta);
         console.log(resultadoConsulta);
-        if (resultadoConsulta == true){ 
-        //Enviar correo de confirmación
-        enviarCorreo('miprestamito@gmail.com', Correo_email, 'Queja ingresada correctamente', `Señor cuentahabiente,  agradecemos su comunicación,  le informamos que su queja ha sido recibida exitosamente. Para el seguimiento o cualquier consulta relacionada, no olvide que el número de su queja es ${siglas} `)
-        .then((enviado) => {
-          if (enviado) {
-            console.log('Correo enviado correctamente');
-          } else {
-            console.log('Error al enviar el correo');
-          }
-        })
-        .catch((error) => {
-          console.error('Error al enviar el correo:', error);
-        });
-            consulta = `update quejas_tulio.tbl_tipo_queja set Correlativo = ${parseInt(tiposQueja[0]['Correlativo'] + 1)} where Id_Tqueja = ${Id_TQueja}`; 
+        if (resultadoConsulta == true) {
+            //Enviar correo de confirmación
+            enviarCorreo('miprestamito@gmail.com', Correo_email, 'Queja ingresada correctamente', `Señor cuentahabiente,  agradecemos su comunicación,  le informamos que su queja ha sido recibida exitosamente. Para el seguimiento o cualquier consulta relacionada, no olvide que el número de su queja es ${siglas} `)
+                .then((enviado) => {
+                    if (enviado) {
+                        console.log('Correo enviado correctamente');
+                    } else {
+                        console.log('Error al enviar el correo');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error al enviar el correo:', error);
+                });
+
+            // Consulta para seleccionar los correos electrónicos de los usuarios
+            const consultaCorreo = "SELECT Correo_email FROM tbl_usuarios  WHERE Id_Cargo = 7"; // Ajusta la consulta según tus necesidades
+
+            // Realizar la consulta de los correos electrónicos
+            const correos = await realizarConsulta(consultaCorreo);
+
+            // Iterar sobre los resultados y enviar correos electrónicos individuales
+            for (const correo of correos) {
+                const destinatario = correo.Correo_email;
+                const asunto = "Nueva Queja Ingresada";
+                const contenido = "El sistema de quejas le informa que se ha recibido una queja, la cual debe ser asignada dentro de las próximas 24 horas.";
+
+                // Llamar a la función de envío de correo electrónico
+                enviarCorreo('miprestamito@gmail.com', destinatario, asunto, contenido)
+                    .then((enviado) => {
+                        if (enviado) {
+                            console.log(`Correo enviado correctamente a ${destinatario}`);
+                        } else {
+                            console.log(`Error al enviar el correo a ${destinatario}`);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(`Error al enviar el correo a ${destinatario}:`, error);
+                    });
+            }
+
+            consulta = `update quejas_tulio.tbl_tipo_queja set Correlativo = ${parseInt(tiposQueja[0]['Correlativo'] + 1)} where Id_Tqueja = ${Id_TQueja}`;
             await realizarDml(consulta);
-            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"insertar"}', 
+            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"insertar"}',
             'Descripcion: ${Detalle}, Nombres: ${Nombres} + ${Apellidos}', '${payload.user}', ${"Current_Timestamp"})`;
             console.log(consulta);
-            await realizarDml(consulta);            
+            await realizarDml(consulta);
             res.status(201).send({ Ok: "Ok" });
         } else {
-            res.status(400).send({Error: "Solicitud no válida"})
-        }           
-    }catch (error) {
-        res.status(401).send({error: error.message})
-    }        
-})
+            res.status(400).send({ Error: "Solicitud no válida" });
+        }
+    } catch (error) {
+        res.status(401).send({ error: error.message });
+    }
+});
+
 
 
 

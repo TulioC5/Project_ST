@@ -27,5 +27,9 @@ router.get("/obtenerqueja", async (req, res) => {
     }
 });
 
+
+
+
+
 module.exports = router;
 
