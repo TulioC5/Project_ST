@@ -12,7 +12,7 @@
                     <th>Nombe</th>
                     <th>Apellido</th>
                     <th>Correo</th>
-                    <th>Cargo</th>
+                    <th>Punto atencion</th>
                     <th>Acccion</th>
                 </tr>
             </thead>
@@ -49,7 +49,7 @@
         if (statusCode == 200){
             let resultadoConsulta = body.resultadoConsulta;
             resultadoConsulta.forEach(e => {
-                let descripcion = e.Descripcion;
+                let descripcion = e.Descripcion1;
                 let id_punto = e.Id_Usuario;
                 let Nombres = e.Nombres;
                 let Apellidos = e.Apellidos;

@@ -167,7 +167,7 @@
     }
 
     guardarValidacion = async () =>{
-        let dpi =  document.getElementById('dpi').value;
+        let dpi =  document.getElementById('id_dpi').value;
         let punto_atencion = document.getElementById('punto_atencion').value;
 
         if (region == ''){
@@ -187,11 +187,11 @@
         }
 
         data = JSON.stringify({
-            Descripcion : descripcion,
-            Id_Region: region,
+            Usuario : dpi,
+            Id_PuntoA: punto_atencion,
         })
 
-        const response = await fetch('/api/punto_atencion/agregarPunto', {
+        const response = await fetch('/api/usuarioPunto/asignarPuntoUsuario', {
             method:"POST",
             headers:header,
             body: data,
@@ -199,14 +199,14 @@
         let statusCode = response.status;
         let body = response.body;
 
-        if (statusCode == 201){
+        if (statusCode == 200){
             Swal.fire({
                 icon: 'success',
                 text: 'Dato guardado',
                 allowOutsideClick: false
             }).then(function(isConfirm) {
                 if (isConfirm) {
-                    window.location = '/puntoatencion'
+                    window.location = '/usuario-p-a'
                 }
             })
         }else{

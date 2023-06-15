@@ -62,12 +62,13 @@ router.post("/asignarPuntoUsuario", async (req, res) =>{
         const token = req.headers.authorization.split(" ")[1]
         const payload = jwt.verify(token, secret)        
         const {Id_PuntoA, Id_Cargo, Usuario } = req.body;
-        var consulta = `UPDATE ${tabla} set Id_Cargo = ${Id_Cargo}, Id_PuntoA = ${Id_PuntoA} WHERE Usuario = '${Usuario}'`;        
+        // var consulta = `UPDATE ${tabla} set Id_Cargo = ${Id_Cargo}, Id_PuntoA = ${Id_PuntoA} WHERE Usuario = '${Usuario}'`;        
+        var consulta = `UPDATE ${tabla} set Id_PuntoA = ${Id_PuntoA} WHERE Id_Usuario = '${Usuario}'`;        
         console.log(consulta);
         var resultadoConsulta = await realizarDml(consulta);
         console.log(resultadoConsulta);
         if (resultadoConsulta == true){    
-            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"actualizar"}', 'Usuario: ${Usuario}, Id_Cargo: ${Id_Cargo}, Id_PuntoA:${Id_PuntoA}', '${payload.user}', ${"Current_Timestamp"})`;
+            consulta = `insert into quejas_tulio.tbl_bitacora_db(Tbl_Nombre, Accion, Registro_Despues, Usuario, Fecha) VALUES ('${tabla}', '${"actualizar"}', 'Usuario: ${Usuario}, Id_PuntoA:${Id_PuntoA}', '${payload.user}', ${"Current_Timestamp"})`;
             console.log(consulta);
             var resultadoConsulta = await realizarDml(consulta);            
             res.status(200).send({ Ok: "Ok" });
@@ -87,7 +88,7 @@ router.post("/eliminarPuntoUsuario", async (req, res) =>{
         const Id_PuntoA = 1;        
         const Id_Cargo = 1;        
         const ESTADO = 0;
-        var consulta = `UPDATE ${tabla} set Id_Cargo = ${Id_Cargo}, Id_PuntoA = ${Id_PuntoA}, ESTADO = ${ESTADO} WHERE Usuario = '${Usuario}'`;        
+        var consulta = `UPDATE ${tabla} set Id_PuntoA = null WHERE Id_Usuario = '${Usuario}'`;        
         console.log(consulta);
         var resultadoConsulta = await realizarDml(consulta);
         console.log(resultadoConsulta);
