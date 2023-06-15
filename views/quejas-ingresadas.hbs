@@ -250,25 +250,126 @@
         
         let json = document.getElementById(`json${val}`).value;
         let jsonParse = JSON.parse(json);
+        let id = jsonParse.Id_Queja;
+
         let label = document.getElementById('staticBackdropLabel');
         let body = document.getElementById('staticBackdropBody');
         label.innerHTML = '';
         body.innerHTML = '';
-        label.innerHTML = 'Ficha'
+        label.innerHTML = 'Asignar'
 
         let divInfo = `
-            <div class="col-12"><b>Nombre:</b> ${jsonParse.Nombres} ${jsonParse.Apellidos}</div>
-            <div class="col-12"><b>Correo:</b> ${jsonParse.Correo_email}</div>
-            <div class="col-12"><b>Telefono:</b> ${jsonParse.Telefono}</div>
-            <div class="col-12"><b>Oficina:</b> ${jsonParse.Id_PuntoA}</div>
-            <div class="col-12"><b>Empleado:</b> ${jsonParse.Id_Usuario}</div>
-            <div class="col-12"><b>Detalle:</b> ${jsonParse.Detalles}</div>
+             <div class="form-outline mb-3">
+                <label class="form-label">Region</label>
+                <select class="form-control" onchange="getPuntoAtencion(this)" required name="region" id="region"></select>
+            </div>
+            <div class="form-outline mb-3">
+                <label class="form-label">Punto de atencion</label>
+                <select class="form-control" required name="punto_atencion" id="punto_atencion"></select>
+            </div>
+            <div class="mt-1 col-12">
+                <button type="button" id="save" class="btn btn-success" onclick="saveAsignacion('${id}')">Asignar</button>
+            </div>
         `;
 
         body.innerHTML = divInfo;
 
         document.getElementById('buttonActiveModal').click();
+        await region();
     }
+
+    getPuntoAtencion = async (val) => {
+        data = JSON.stringify({
+            region: val.value,
+        })
+
+        const response = await fetch('/api/usuarioPunto/puntoAtencion', {
+            method:"POST",
+            headers:header,
+            body:data
+        }).then(res => res.json().then(data => ({status: res.status, body: data})));
+
+        
+        let statusCode = response.status;
+        let body = response.body;
+        let table = ``;
+
+        if (statusCode == 200){
+            let resultadoConsulta = body.resultadoConsulta;
+            let selectInput = document.getElementById('punto_atencion');
+            for(let i=selectInput.childNodes.length-1; i>=0; i--) {
+            selectInput.childNodes[i].remove(i);
+        }
+            let id =  '';
+            let name = '---';
+            let opt = document.createElement('option');
+            opt.value = id;
+            opt.innerHTML = name;
+            selectInput.appendChild(opt);
+            
+            resultadoConsulta.forEach(e => {
+                let id_region = e.Id_PuntoA;
+                let descripcion = e.Descripcion;
+                let id = id_region;
+                let name = descripcion;
+                let opt = document.createElement('option');
+                opt.value = id;
+                opt.innerHTML = name;
+                selectInput.appendChild(opt);
+
+            });
+           
+            
+        }else{
+            Swal.fire({
+                icon: 'error',
+                text: 'Hubo un error en obtener listado',
+            });
+        }
+    }
+
+    region = async () => {
+
+        const response = await fetch('/api/regiones/obtenerRegiones', {
+            method:"GET",
+            headers:header,
+        }).then(res => res.json().then(data => ({status: res.status, body: data})));
+
+
+        let statusCode = response.status;
+        let body = response.body;
+        let table = ``;
+
+        if (statusCode == 200){
+            let resultadoConsulta = body.resultadoConsulta;
+            let selectInput = document.getElementById('region');
+            let id =  '';
+            let name = '---';
+            let opt = document.createElement('option');
+            opt.value = id;
+            opt.innerHTML = name;
+            selectInput.appendChild(opt);
+            
+            resultadoConsulta.forEach(e => {
+                let id_region = e.Id_Region;
+                let descripcion = e.Descripcion;
+                let id = id_region;
+                let name = descripcion;
+                let opt = document.createElement('option');
+                opt.value = id;
+                opt.innerHTML = name;
+                selectInput.appendChild(opt);
+
+            });
+
+        }else{
+            Swal.fire({
+                icon: 'error',
+                text: 'Hubo un error en obtener listado',
+            });
+        }
+    }
+
 
 function redirigirModificar(id_punto) {
     // Aquí puedes especificar la ruta que deseas abrir
