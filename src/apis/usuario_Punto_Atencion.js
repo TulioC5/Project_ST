@@ -11,7 +11,7 @@ router.get("/obtenerusuariosPA", async (req, res) =>{
     try {
         const token = req.headers.authorization.split(" ")[1]
         const payload = jwt.verify(token, secret)        
-        var consulta = `SELECT Usuario, Nombres, Apellidos, Cui, Correo_Email, tbl_puntos_atencion.Descripcion as 'Descripcion1' , tbl_cargos.Descripcion, tbl_regiones.Descripcion as 'Descripcion2'  FROM tbl_usuarios
+        var consulta = `SELECT Id_Usuario, Usuario, Nombres, Apellidos, Cui, Correo_Email, tbl_puntos_atencion.Descripcion as 'Descripcion1' , tbl_cargos.Descripcion, tbl_regiones.Descripcion as 'Descripcion2'  FROM tbl_usuarios
         join 
 tbl_puntos_atencion				on tbl_usuarios.Id_PuntoA 	= tbl_puntos_atencion.Id_PuntoA
         JOIN
