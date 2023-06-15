@@ -92,16 +92,29 @@
 
         if (statusCode == 200){
             let resultadoConsulta = body.resultadoConsulta;
-            if (resultadoConsulta.length == 0){
-                Swal.fire({
-                    icon: 'warning',
-                    text: 'DPI no existe, favor intente con otro',
-                });
-            }else{
-                resultadoConsulta.forEach(e => {
-                    document.getElementById('id_dpi').value = e.Id_Usuario;
-                });
-            }
+            let selectInput = document.getElementById('punto_atencion');
+            for(let i=selectInput.childNodes.length-1; i>=0; i--) {
+            selectInput.childNodes[i].remove(i);
+        }
+            let id =  '';
+            let name = '---';
+            let opt = document.createElement('option');
+            opt.value = id;
+            opt.innerHTML = name;
+            selectInput.appendChild(opt);
+            
+            resultadoConsulta.forEach(e => {
+                let id_region = e.Id_PuntoA;
+                let descripcion = e.Descripcion;
+                let id = id_region;
+                let name = descripcion;
+                let opt = document.createElement('option');
+                opt.value = id;
+                opt.innerHTML = name;
+                selectInput.appendChild(opt);
+
+            });
+           
             
         }else{
             Swal.fire({
