@@ -3,7 +3,7 @@ var conexion= mysql.createConnection({
     host : 'localhost',
     database : 'quejas_tulio',
     user : 'root',
-    password : 'Jonathansor200066',
+    password : '123',
 });
 
 conexion.connect(function(err) {

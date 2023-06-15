@@ -178,6 +178,7 @@ select * from quejas_tulio.tbl_estado te
 --Querys
 select * from quejas_tulio.tbl_queja 
 select * from quejas_tulio.tbl_estado te 
+select * from quejas_tulio.tbl_queja_origen
 
 INSERT INTO quejas_tulio.tbl_queja(Nombres, Apellidos, Correo_email, Telefono, Detalles, Id_TQueja, Id_Origen, Archivo, Id_PuntoA, Id_EstadoIni, Id_EstadoFin) 
         VALUES ('Jonathan Elias','Sor Monroy', 'Jonathansor2000sm@gmail.com', '48259722', 'Prueba de queja', '1', '1', '', 1,1,1)
