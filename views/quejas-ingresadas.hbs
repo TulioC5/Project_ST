@@ -8,7 +8,7 @@
       </div>
       <div class="modal-body" id="staticBackdropBody"></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -171,6 +171,82 @@
     }
 
     ver = async (val) => {
+        
+        let json = document.getElementById(`json${val}`).value;
+        let jsonParse = JSON.parse(json);
+        let label = document.getElementById('staticBackdropLabel');
+        let body = document.getElementById('staticBackdropBody');
+        label.innerHTML = '';
+        body.innerHTML = '';
+        label.innerHTML = 'Ficha'
+
+        let divInfo = `
+            <div class="col-12"><b>Nombre:</b> ${jsonParse.Nombres} ${jsonParse.Apellidos}</div>
+            <div class="col-12"><b>Correo:</b> ${jsonParse.Correo_email}</div>
+            <div class="col-12"><b>Telefono:</b> ${jsonParse.Telefono}</div>
+            <div class="col-12"><b>Oficina:</b> ${jsonParse.Id_PuntoA}</div>
+            <div class="col-12"><b>Empleado:</b> ${jsonParse.Id_Usuario}</div>
+            <div class="col-12"><b>Detalle:</b> ${jsonParse.Detalles}</div>
+        `;
+
+        body.innerHTML = divInfo;
+
+        document.getElementById('buttonActiveModal').click();
+    }
+
+    detalle = async (val) => {
+        
+        let json = document.getElementById(`json${val}`).value;
+        let jsonParse = JSON.parse(json);
+        let id = jsonParse.Id_Queja;
+        let label = document.getElementById('staticBackdropLabel');
+        let body = document.getElementById('staticBackdropBody');
+        label.innerHTML = '';
+        body.innerHTML = '';
+        label.innerHTML = 'Detalle'
+
+        let divInfo = `
+            <div class="col-12">
+                <textarea class="form-control" id="detalle"></textarea>
+            </div>
+            <div class="mt-1 col-12">
+                <button type="button" id="save" class="btn btn-success" onclick="saveDetalle('${id}')">Agregar</button>
+            </div>
+        `;
+
+        body.innerHTML = divInfo;
+
+
+        document.getElementById('buttonActiveModal').click();
+    }
+
+    rechazar = async (val) => {
+        
+        let json = document.getElementById(`json${val}`).value;
+        let jsonParse = JSON.parse(json);
+        let id = jsonParse.Id_Queja;
+        let label = document.getElementById('staticBackdropLabel');
+        let body = document.getElementById('staticBackdropBody');
+        label.innerHTML = '';
+        body.innerHTML = '';
+        label.innerHTML = 'Justificacion'
+
+        let divInfo = `
+            <div class="col-12">
+                <textarea class="form-control" id="detalleRechazar"></textarea>
+            </div>
+            <div class="mt-1 col-12">
+                <button type="button" id="save" class="btn btn-success" onclick="saveRechazo('${id}')">Rechazar</button>
+            </div>
+        `;
+
+        body.innerHTML = divInfo;
+
+
+        document.getElementById('buttonActiveModal').click();
+    }
+
+    asignar = async (val) => {
         
         let json = document.getElementById(`json${val}`).value;
         let jsonParse = JSON.parse(json);
